@@ -16,7 +16,7 @@
 /* for libft */
 # include "lib/libft/libft.h"
 /* codam mlx */
-# include "lib/MLX42/include/MLX42/MLX42.h"
+# include "MLX42/include/MLX42/MLX42.h"
 /* for stderr */
 # include <stdio.h>
 /* malloc and free */

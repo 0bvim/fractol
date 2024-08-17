@@ -45,7 +45,7 @@ OBJ = $(addprefix $(OBJ_DIR), $(CFILES:%.c=%.o))
 
 INCLUDES = -I./ -I./lib/libft -I.lib/MLX42/include/MLX42
 LINCLUDES = -L./lib/libft -lft
-MLX = lib/MLX42/build/libmlx42.a
+MLX = MLX42/build/libmlx42.a
 	   
 all : $(NAME)
 
@@ -54,8 +54,8 @@ obj:
 
 .SILENT:
 $(MLX): 
-	@cd lib/MLX42 && cmake -B build -DDEBUG=1
-	@cd lib/MLX42 && cmake --build build -j4
+	@cd MLX42 && cmake -B build -DDEBUG=1
+	@cd MLX42 && cmake --build build -j4
 
 obj/%.o: %.c
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
