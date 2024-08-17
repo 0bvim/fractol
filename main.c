@@ -11,16 +11,13 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include "src/validations/avac.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, const char **argv)
 {
-	if ((2 == argc && !ft_strncmp(argv[1], "mandelbrot", 10))
-			|| (4 == argc && !ft_strncmp(argv[1], "julia", 5)))
-	{
-		printf("In\n");
-	}
-	else
-	{
-		printf("Not in.\n");
-	}
+  if (validate_fractol_type(argv, argc))
+    printf("In\n");
+  else
+    printf("Not in.\n");
+  return (0);
 }

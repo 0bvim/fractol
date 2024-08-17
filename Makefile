@@ -38,6 +38,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 #				     				FILES      								   #
 #******************************************************************************#
 CFILES = main.c
+CFILES += src/validations/avac.c
 
 OBJ_DIR = ./obj/
 
@@ -52,12 +53,14 @@ all : $(NAME)
 obj: 
 	@mkdir -p $(OBJ_DIR)
 
+
 .SILENT:
 $(MLX): 
 	@cd MLX42 && cmake -B build -DDEBUG=1
 	@cd MLX42 && cmake --build build -j4
 
 obj/%.o: %.c
+	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(MLX) obj $(OBJ)
