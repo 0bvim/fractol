@@ -5,13 +5,13 @@
 #                                                     +:+ +:+         +:+      #
 #    By: nivicius <nivicius@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/06 07:00:31 by vde-frei          #+#    #+#              #
-#    Updated: 2024/08/19 01:16:58 by nivicius         ###   ########.fr        #
+#    Created: 2024/08/19 01:55:57 by nivicius          #+#    #+#              #
+#    Updated: 2024/08/19 01:56:00 by nivicius         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #******************************************************************************#
-#								  CONFIGURATION				       			   #
+#                                 CONFIGURATION                                #
 #******************************************************************************#
 
 NAME = fractol
@@ -21,75 +21,63 @@ LIBFT = lib/libft/libft.a
 SHELL := /bin/bash
 COUNT := 0
 
-BLACK  		 = \033[0;30m
-RED    		 = \033[0;31m
-GREEN  		 = \033[0;32m
-YELLOW 		 = \033[0;33m
-BLUE   		 = \033[0;34m
-MAGENTA		 = \033[0;35m
-CYAN   		 = \033[0;36m
-WHITE  		 = \033[0;37m
-RESET  		 = \033[0m
+BLACK        = \033[0;30m
+RED          = \033[0;31m
+GREEN        = \033[0;32m
+YELLOW       = \033[0;33m
+BLUE         = \033[0;34m
+MAGENTA      = \033[0;35m
+CYAN         = \033[0;36m
+WHITE        = \033[0;37m
+RESET        = \033[0m
 
 MFLAGS = -ldl -lglfw -pthread -lm -g3
 CFLAGS = -Wall -Wextra -Werror -g3
 
 #******************************************************************************#
-#				     				FILES      								   #
+#                                   FILES                                      #
 #******************************************************************************#
-SRC_PATH = src/
-VALIDATION = validations/
+SRC_DIR = src/
+OBJ_DIR = obj/
 
-#******************************************************************************#
-#				     				FILES      								   #
-#******************************************************************************#
-CFILES = $(SRC_PATH)main.c
-CFILES += $(SRC_PATH)$(VALIDATIONS)avac.c
+CFILES = $(SRC_DIR)main.c \
+         $(SRC_DIR)validations/avac.c
 
-OBJ_DIR = ./obj/
-
-OBJ = $(addprefix $(OBJ_DIR), $(CFILES:%.c=%.o))
+OBJ = $(CFILES:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 INCLUDES = -I./ -I./lib/libft -I.lib/MLX42/include/MLX42
 LINCLUDES = -L./lib/libft -lft
 MLX = MLX42/build/libmlx42.a
-	   
+       
 all : $(NAME)
 
-obj: 
+$(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@printf "$(GREEN)Compiling $< into $@\n$(RESET)"
 
-.SILENT:
 $(MLX): 
 	@cd MLX42 && cmake -B build -DDEBUG=1
 	@cd MLX42 && cmake --build build -j4
 
-obj/%.o: %.c
-	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-$(NAME): $(MLX) obj $(OBJ)
+$(NAME): $(MLX) $(OBJ)
 	@$(MAKE) -sC ./lib/libft
 	@$(CC) $(OBJ) $(INCLUDES) $(LIBFT) $(MLX) $(LINCLUDES) $(CFLAGS) $(MFLAGS) -o $(NAME)
 	@printf "\n$(MAGENTA)Fractol compiled\n$(RESET)"
 
-%.o:%.c
-	@$(eval COUNT=$(shell expr $(COUNT) + 1))
-	@cc $(CFLAGS) -I ./ -c $< -o $@
-	@printf "$(GREEN)Compiling FdF %d%%\r$(RESET)" $$(echo $$(($(COUNT) * 100 / $(words $(CFILES)))))
-
 clean :
 	@make clean -sC lib/libft/
 	@rm -rf lib/MLX42/build
-	@rm -rf obj
+	@rm -rf $(OBJ_DIR)
 	@printf "$(RED)Deleted objects$(RESET)\n"
 
 fclean : clean
 	@make clean -sC lib/libft/
 	@rm -rf $(NAME)
 	@printf "$(RED)Libft is deleted$(RESET)\n"
-
 
 re : fclean all
 

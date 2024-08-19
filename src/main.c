@@ -6,12 +6,12 @@
 /*   By: nivicius <nivicius@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 00:01:30 by vde-frei          #+#    #+#             */
-/*   Updated: 2024/08/19 01:38:10 by nivicius         ###   ########.fr       */
+/*   Updated: 2024/08/19 01:39:36 by nivicius         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include "avac.h"
+#include "validations/avac.h"
 
 static mlx_image_t* image;
 
