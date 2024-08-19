@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"*.hpp": "cpp",
+		"fractol.h": "c"
+	}
+}
